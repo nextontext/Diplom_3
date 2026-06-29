@@ -4,6 +4,7 @@ from pages.forget_password_page import ForgotPasswordPage
 from pages.login_page import LoginPage
 from pages.reset_password_page import ResetPasswordPage
 from urls import BASE_URL
+from helpers import generate_user
 
 
 class TestPasswordRecovery:
@@ -17,7 +18,9 @@ class TestPasswordRecovery:
         LoginPage(driver).wait_url_contains("/forgot-password")
 
     @allure.title("Переход к форме сброса пароля после ввода email")
-    def test_recover_password_with_email(self, driver, user_data):
+    def test_recover_password_with_email(self, driver):
+        user_data = generate_user()
+
         driver.get(f"{BASE_URL}/forgot-password")
 
         ForgotPasswordPage(driver).recover_password(user_data["email"])
@@ -25,7 +28,9 @@ class TestPasswordRecovery:
         ForgotPasswordPage(driver).wait_url_contains("/reset-password")
 
     @allure.title("Клик по кнопке показать пароль делает поле активным")
-    def test_show_password_button_makes_password_field_active(self, driver, user_data):
+    def test_show_password_button_makes_password_field_active(self, driver):
+        user_data = generate_user()
+        
         driver.get(f"{BASE_URL}/forgot-password")
         ForgotPasswordPage(driver).recover_password(user_data["email"])
 

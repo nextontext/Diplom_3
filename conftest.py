@@ -18,12 +18,9 @@ def driver(request):
 
 
 @pytest.fixture
-def user_data():
-    return generate_user()
-
-
-@pytest.fixture
-def create_user(user_data):
+def create_user():
+    user_data = generate_user()
+    
     response = requests.post(REGISTER_USER, json=user_data)
     response_body = response.json()
 

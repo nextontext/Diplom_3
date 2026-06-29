@@ -8,7 +8,6 @@ from urls import BASE_URL
 class TestConstructor:
 
     @allure.title("Переход в конструктор из личного кабинета")
-    @allure.title("Переход в конструктор из личного кабинета")
     def test_open_constructor_from_profile(self, driver, create_user):
         driver.get(f"{BASE_URL}/login")
 
@@ -31,17 +30,19 @@ class TestConstructor:
     def test_open_order_feed(self, driver):
         driver.get(BASE_URL)
 
-        MainPage(driver).open_order_feed()
+        main_page = MainPage(driver)
+        main_page.open_order_feed()
 
-        MainPage(driver).wait_url_contains("/feed")
+        assert "/feed" in main_page.get_current_url()
 
     @allure.title("Открытие деталей ингредиента")
     def test_open_ingredient_details(self, driver):
         driver.get(BASE_URL)
 
-        MainPage(driver).open_first_ingredient_details()
+        main_page = MainPage(driver)
+        main_page.open_first_ingredient_details()
 
-        assert MainPage(driver).is_ingredient_details_opened()
+        assert main_page.is_ingredient_details_opened()
     
     @allure.title("Закрытие деталей ингредиента по клику на крестик")
     def test_close_ingredient_details_by_close_button(self, driver):
