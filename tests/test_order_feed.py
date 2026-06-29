@@ -134,7 +134,4 @@ class TestOrderFeed:
 
         order_feed_page = OrderFeedPage(driver)
 
-        print("ORDER NUMBER:", order_number)
-        print("IN PROGRESS:", order_feed_page.get_in_progress_orders_text())
-
         assert order_number in order_feed_page.get_in_progress_orders_text()
