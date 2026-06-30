@@ -147,3 +147,12 @@ class BasePage:
     @allure.step("Получить текущий URL")
     def get_current_url(self):
         return self.driver.current_url
+
+    @allure.step("Открыть страницу")
+    def open_url(self, url):
+        self.driver.get(url)
+
+    @allure.step("Кликнуть по элементу через JavaScript")
+    def click_with_js(self, locator):
+        element = self.find_element(locator)
+        self.driver.execute_script("arguments[0].click();", element)

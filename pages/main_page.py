@@ -8,8 +8,7 @@ class MainPage(BasePage):
 
     @allure.step("Открыть конструктор")
     def open_constructor(self):
-        element = self.find_element(MainPageLocators.CONSTRUCTOR_LINK)
-        self.driver.execute_script("arguments[0].click();", element)
+        self.click_with_js(MainPageLocators.CONSTRUCTOR_LINK)
 
     @allure.step("Открыть ленту заказов")
     def open_order_feed(self):

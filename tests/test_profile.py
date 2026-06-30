@@ -10,9 +10,9 @@ class TestProfile:
 
     @allure.title("Переход в личный кабинет")
     def test_open_personal_account(self, driver, create_user):
-        driver.get(f"{BASE_URL}/login")
-
-        LoginPage(driver).login(
+        login_page = LoginPage(driver)
+        login_page.open_url(f"{BASE_URL}/login")
+        login_page.login(
             create_user["email"],
             create_user["password"],
         )
@@ -22,12 +22,14 @@ class TestProfile:
 
         main_page.open_personal_account()
         main_page.wait_url_contains("/account/profile")
+
+        assert "/account/profile" in main_page.get_current_url()
 
     @allure.title("Переход в историю заказов")
     def test_open_order_history_from_profile(self, driver, create_user):
-        driver.get(f"{BASE_URL}/login")
-
-        LoginPage(driver).login(
+        login_page = LoginPage(driver)
+        login_page.open_url(f"{BASE_URL}/login")
+        login_page.login(
             create_user["email"],
             create_user["password"],
         )
@@ -38,15 +40,17 @@ class TestProfile:
         main_page.open_personal_account()
         main_page.wait_url_contains("/account/profile")
 
-        ProfilePage(driver).open_order_history()
+        profile_page = ProfilePage(driver)
+        profile_page.open_order_history()
+        profile_page.wait_url_contains("/account/order-history")
 
-        ProfilePage(driver).wait_url_contains("/account/order-history")
+        assert "/account/order-history" in profile_page.get_current_url()
     
     @allure.title("Выход из аккаунта")
     def test_logout_from_account(self, driver, create_user):
-        driver.get(f"{BASE_URL}/login")
-
-        LoginPage(driver).login(
+        login_page = LoginPage(driver)
+        login_page.open_url(f"{BASE_URL}/login")
+        login_page.login(
             create_user["email"],
             create_user["password"],
         )
@@ -57,6 +61,8 @@ class TestProfile:
         main_page.open_personal_account()
         main_page.wait_url_contains("/account/profile")
 
-        ProfilePage(driver).logout()
+        profile_page = ProfilePage(driver)
+        profile_page.logout()
+        profile_page.wait_url_contains("/login")
 
-        ProfilePage(driver).wait_url_contains("/login")
+        assert "/login" in profile_page.get_current_url()

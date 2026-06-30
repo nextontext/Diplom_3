@@ -11,10 +11,10 @@ class TestOrderFeed:
 
     @allure.title("Открытие деталей заказа из ленты заказов")
     def test_open_order_details_from_order_feed(self, driver):
-        driver.get(BASE_URL)
-
-        MainPage(driver).open_order_feed()
-        MainPage(driver).wait_url_contains("/feed")
+        main_page = MainPage(driver)
+        main_page.open_url(BASE_URL)
+        main_page.open_order_feed()
+        main_page.wait_url_contains("/feed")
 
         order_feed_page = OrderFeedPage(driver)
         order_feed_page.open_first_order()
@@ -25,9 +25,9 @@ class TestOrderFeed:
 
     @allure.title("Заказ пользователя отображается в ленте заказов")
     def test_user_order_from_history_is_visible_in_order_feed(self, driver, create_user):
-        driver.get(f"{BASE_URL}/login")
-
-        LoginPage(driver).login(
+        login_page = LoginPage(driver)
+        login_page.open_url(f"{BASE_URL}/login")
+        login_page.login(
             create_user["email"],
             create_user["password"],
         )
@@ -49,13 +49,15 @@ class TestOrderFeed:
         main_page.open_order_feed()
         main_page.wait_url_contains("/feed")
 
-        assert OrderFeedPage(driver).is_order_number_visible_in_feed(order_number)
+        order_feed_page = OrderFeedPage(driver)
+
+        assert order_feed_page.is_order_number_visible_in_feed(order_number)
 
     @allure.title("Счётчик выполненных заказов за всё время увеличивается после создания заказа")
     def test_total_done_counter_increases_after_order_created(self, driver, create_user):
-        driver.get(f"{BASE_URL}/login")
-
-        LoginPage(driver).login(
+        login_page = LoginPage(driver)
+        login_page.open_url(f"{BASE_URL}/login")
+        login_page.login(
             create_user["email"],
             create_user["password"],
         )
@@ -83,12 +85,13 @@ class TestOrderFeed:
 
     @allure.title("Счётчик выполненных заказов за сегодня увеличивается после создания заказа")
     def test_today_done_counter_increases_after_order_created(self, driver, create_user):
-        driver.get(f"{BASE_URL}/login")
-
-        LoginPage(driver).login(
+        login_page = LoginPage(driver)
+        login_page.open_url(f"{BASE_URL}/login")
+        login_page.login(
             create_user["email"],
             create_user["password"],
         )
+
         main_page = MainPage(driver)
         assert main_page.is_constructor_opened()
 
@@ -112,9 +115,9 @@ class TestOrderFeed:
 
     @allure.title("После оформления заказа его номер появляется в разделе В работе")
     def test_order_number_appears_in_progress_after_order_created(self, driver, create_user):
-        driver.get(f"{BASE_URL}/login")
-
-        LoginPage(driver).login(
+        login_page = LoginPage(driver)
+        login_page.open_url(f"{BASE_URL}/login")
+        login_page.login(
             create_user["email"],
             create_user["password"],
         )

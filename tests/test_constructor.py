@@ -9,9 +9,9 @@ class TestConstructor:
 
     @allure.title("Переход в конструктор из личного кабинета")
     def test_open_constructor_from_profile(self, driver, create_user):
-        driver.get(f"{BASE_URL}/login")
-
-        LoginPage(driver).login(
+        login_page = LoginPage(driver)
+        login_page.open_url(f"{BASE_URL}/login")
+        login_page.login(
             create_user["email"],
             create_user["password"],
         )
@@ -28,27 +28,27 @@ class TestConstructor:
 
     @allure.title("Переход в ленту заказов")
     def test_open_order_feed(self, driver):
-        driver.get(BASE_URL)
-
         main_page = MainPage(driver)
+        main_page.open_url(BASE_URL)
+        
         main_page.open_order_feed()
 
         assert "/feed" in main_page.get_current_url()
 
     @allure.title("Открытие деталей ингредиента")
     def test_open_ingredient_details(self, driver):
-        driver.get(BASE_URL)
-
         main_page = MainPage(driver)
+        main_page.open_url(BASE_URL)
+
         main_page.open_first_ingredient_details()
 
         assert main_page.is_ingredient_details_opened()
     
     @allure.title("Закрытие деталей ингредиента по клику на крестик")
     def test_close_ingredient_details_by_close_button(self, driver):
-        driver.get(BASE_URL)
-
         main_page = MainPage(driver)
+        main_page.open_url(BASE_URL)
+
         main_page.open_first_ingredient_details()
         main_page.close_ingredient_details()
 
@@ -56,9 +56,8 @@ class TestConstructor:
 
     @allure.title("Счётчики ингредиентов увеличиваются после добавления в заказ")
     def test_ingredient_counters_increase_after_adding_to_order(self, driver):
-        driver.get(BASE_URL)
-
         main_page = MainPage(driver)
+        main_page.open_url(BASE_URL)
 
         main_page.drag_first_bun_to_constructor()
 
@@ -72,9 +71,9 @@ class TestConstructor:
 
     @allure.title("Залогиненный пользователь может оформить заказ")
     def test_authorized_user_can_create_order(self, driver, create_user):
-        driver.get(f"{BASE_URL}/login")
-
-        LoginPage(driver).login(
+        login_page = LoginPage(driver)
+        login_page.open_url(f"{BASE_URL}/login")
+        login_page.login(
             create_user["email"],
             create_user["password"],
         )
